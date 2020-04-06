@@ -6,6 +6,13 @@ const FeedController = require('./controllers/FeedController');
 
 const routes = express.Router();
 
+routes.get('/', (request, response) => {
+    response.json({ info: 'API Combate ao COVID-19',
+                    rota1: '/usuario',
+                    rota2: '/solicitacao',
+                    rota3: '/feed'})
+})
+
 routes.get('/usuario', UsuarioController.index);
 routes.post('/usuario', UsuarioController.create);
 routes.put('/usuario/:id', UsuarioController.update);
