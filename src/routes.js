@@ -7,7 +7,7 @@ const FeedController = require('./controllers/FeedController');
 const routes = express.Router();
 
 routes.get('/', (request, response) => {
-    response.json({ info: 'API Combate ao COVID-19',
+    response.json({ info: 'API Projeto COVID-19',
                     rota1: '/usuario',
                     rota2: '/solicitacao',
                     rota3: '/feed'})
