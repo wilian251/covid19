@@ -2,4 +2,4 @@ node_modules
 
 .env
 
-src/database
+src/database/connection.js
