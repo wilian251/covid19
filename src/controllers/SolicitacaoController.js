@@ -14,14 +14,14 @@ module.exports = {
     },
 
     async create(request, response) {
-        const id = request.headers.authorization;
+        const userID = request.headers.authorization;
 
-        const {tpSolicitacao ,tpNecessidade, descricao, status, dataFeed, horaFeed, horaVenc} = request.body;
+        const {tpSolicitacao ,tpNecessidade, descricao, status, dataFeed, horaFeed, horaVenc, dataVenc} = request.body;
 
         await connection.query(`INSERT INTO "solicitacao" ("userID", "tpSolicitacao", "tpNecessidade", 
-                               "descricao", "status", "dataFeed", "horaFeed", "horaVenc")
-                 VALUES ('${id}', '${tpSolicitacao}', '${tpNecessidade}', '${descricao}', '${status}', 
-                         '${dataFeed}', '${horaFeed}', '${horaVenc}')`, 
+                               "descricao", "status", "dataFeed", "horaFeed", "horaVenc, dataVenc")
+                 VALUES ('${userID}', '${tpSolicitacao}', '${tpNecessidade}', '${descricao}', '${status}', 
+                         '${dataFeed}', '${horaFeed}', '${horaVenc}', '${dataVenc}')`, 
                 (error, result) => {
             try{
                 return response.status(200).json(result)
@@ -35,12 +35,13 @@ module.exports = {
 
     async update(request, response) {
         const id = parseInt(request.params.id);
-        const {tpSolicitacao, tpNecessidade, descricao, status, dataFeed, horaFeed, horaVenc} = request.body;
+        const userID = request.headers.authorization;
+        const {tpSolicitacao, tpNecessidade, descricao, status, dataFeed, horaFeed, horaVenc, dataVenc} = request.body;
 
         await connection.query(`UPDATE "solicitacao" SET "tpSolicitacao" = '${tpSolicitacao}',
                "tpNecessidade" = '${tpNecessidade}', "descricao" = '${descricao}', "status" = '${status}',
-               "dataFeed" = '${dataFeed}', "horaFeed" = '${horaFeed}', "horaVenc" = '${horaVenc}' 
-                WHERE "solicitacaoID" = ${id}`, (error, result) => {
+               "dataFeed" = '${dataFeed}', "horaFeed" = '${horaFeed}', "horaVenc" = '${horaVenc}', "dataVenc" = '${dataVenc}'
+                WHERE "solicitacaoID" = ${id} AND "userID" = ${userID}`, (error, result) => {
 
             try{
                 return response.status(200).json(result);
@@ -53,8 +54,9 @@ module.exports = {
 
     async delete(request, response) {
         const id = parseInt(request.params.id)
+        const userID = request.headers.authorization;
 
-        await connection.query(`DELETE FROM "solicitacao" WHERE "solicitacaoID" = ${id}`,
+        await connection.query(`DELETE FROM "solicitacao" WHERE "solicitacaoID" = ${id} AND "userID" = ${userID}`,
             (error, result) => {
             try{
                 return response.status(200).json(result)

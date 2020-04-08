@@ -26,7 +26,6 @@ module.exports ={
                                  '${codPais}', '${codArea}','${telefone}', '${email}', '${senha}')`, 
                          (error, result) => {
             try{
-              console.log(result)
               return response.status(200).json(result)
             }
             catch(error){
@@ -57,9 +56,9 @@ module.exports ={
       },
     
     async delete(request, response) {
-        const id = parseInt(request.params.id)
+        const cpf = request.headers.authorization;
     
-        await connection.query(`DELETE FROM "usuario" WHERE "userID" = ${id}`, (error, result) => {
+        await connection.query(`DELETE FROM "usuario" WHERE "cpf" = ${cpf}`, (error, result) => {
             try{
                 return response.status(201).json(result);
             }catch(error){
